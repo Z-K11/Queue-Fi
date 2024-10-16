@@ -6,10 +6,16 @@ const char* ssid="ZK11";
 const char* password="datastructures";
 ESP8266WebServer server(80);
 MDNSResponder mdns;
+String homepage="";
 
 
 void setup() {
   // put your setup code here, to run once:
+  homepage +="<!DOCTYPE html> <html>\n";
+  homepage +="<title>Queue-Fi</title>\n";
+  homepage +="<style>body{color:white;background-color:white;}</style>\n";
+  homepage +="<body><p>Hello boys</p></body>\n";
+  homepage +="</html>\n";
   Serial.begin(9600);
   WiFi.begin(ssid,password);
   while(WiFi.status() != WL_CONNECTED)
@@ -17,7 +23,6 @@ void setup() {
     delay(500);
     Serial.print(".");
   }
-
   Serial.print("\n ");
   Serial.print("Connected to : ");
   Serial.print(ssid);
@@ -25,13 +30,13 @@ void setup() {
   Serial.print("IP Address : ");
   Serial.print(WiFi.localIP());
   Serial.print("\n");
-  server.on("/",[]
+  server.on("/",[]()
   {
-    server.send(200,"text/hmtl","Hello World !!!!");
+    server.send(200,"text/hmtl",homepage);
   });
   server.begin();
   Serial.print("HTTP SERVER STARTED \n");
-
+  
 }
 
 
